@@ -1,4 +1,2 @@
-import numpy as np
-
-print(np.random.rand())
-print(np.random.rand())
+if __name__ == "__main__":
+    print("main.py is called")

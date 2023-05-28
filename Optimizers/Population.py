@@ -46,9 +46,9 @@ class Population:
 
 
 if __name__ == "__main__":
-
     def sphere(x):
-        return np.sum(x**2)
+        return np.sum(x ** 2)
+
 
     pop = Population(-5, 5, 2, 2, objective_function=sphere)
     pop.initialize()
