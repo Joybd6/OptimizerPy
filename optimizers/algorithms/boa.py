@@ -3,12 +3,27 @@ import numpy as np
 
 
 class Butterfly(Algorithms):
+    """
+    Butterfly Optimization Algorithm
+    :Constructor arguments:
+        :param dimension:
+        :param max_iter:
+        :param c:
+        :param p:
+    """
     _fragrance = None
     _random_agent_j = None
     _random_agent_k = None
 
-    def __init__(self, name, dimension, max_iter, c=0.05, p=0.8):
-        super().__init__(name, dimension, max_iter)
+    def __init__(self, dimension, max_iter, c=0.05, p=0.8):
+        """
+
+        :param dimension:
+        :param max_iter:
+        :param c:
+        :param p:
+        """
+        super().__init__(self.__class__.__name__, dimension, max_iter)
         self.c = c
         self.p = p
         self.a = 0.01
@@ -33,6 +48,12 @@ class Butterfly(Algorithms):
         self._fragrance = self.c * np.power(value, self.a)
 
     def step(self, iteration):
+        """
+        This method is called in each population step
+        :param: iteration:
+        :return: updated agent:
+
+        """
         if self._current_agent is None or self._local_optimum_agent is None or self._global_optimum_agent is None:
             raise ValueError("Population, local optimum and global optimum must be set before running the algorithm")
 
