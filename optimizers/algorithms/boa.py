@@ -15,29 +15,38 @@ class Butterfly(Algorithms):
     _random_agent_j = None
     _random_agent_k = None
 
-    def __init__(self, dimension, max_iter, c=0.05, p=0.8):
+    def __init__(self, dimension, max_iter, c=0.05, p=0.8, **kwargs):
         """
 
         :param dimension:
         :param max_iter:
-        :param c:
-        :param p:
+        :param c(kwargs):
+        :param p(kwargs):
         """
         super().__init__(self.__class__.__name__, dimension, max_iter)
-        self.c = c
-        self.p = p
+        self.c = kwargs['c']
+        self.p = kwargs['p']
         self.a = 0.01
 
-    def set_random_agents(self, random_agent_j, random_agent_k):
+    @property
+    def random_agent_j(self):
+        return self._random_agent_j
 
-        if random_agent_j.shape[0] != self.dimension:
+    @random_agent_j.setter
+    def random_agent_j(self, value):
+        if value.shape[0] != self.dimension:
             raise ValueError("random agent j shape must be equal to (dimension,)")
+        self._random_agent_j = value
 
-        if random_agent_k.shape[0] != self.dimension:
+    @property
+    def random_agent_k(self):
+        return self._random_agent_k
+
+    @random_agent_k.setter
+    def random_agent_k(self, value):
+        if value.shape[0] != self.dimension:
             raise ValueError("random agent k shape must be equal to (dimension,)")
-
-        self._random_agent_j = random_agent_j
-        self._random_agent_k = random_agent_k
+        self._random_agent_k = value
 
     @property
     def fragrance(self):

@@ -4,7 +4,7 @@ import numpy as np
 
 class Jaya(Algorithms):
 
-    def __init__(self, dimension, max_iter):
+    def __init__(self, dimension, max_iter, **kwargs):
         super().__init__(self.__class__.__name__, dimension, max_iter)
 
     def step(self, iteration):

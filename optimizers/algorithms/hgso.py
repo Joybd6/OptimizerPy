@@ -17,12 +17,12 @@ class HGSO(Algorithms):
     _cluster_index = 0
     _agent_index = 0
 
-    def __init__(self, dimension, max_iter, cluster_size, population_size_in_cluster, alpha=0.5, beta=0.5):
+    def __init__(self, dimension, max_iter, **kwargs):
         super().__init__(self.__class__.__name__, dimension, max_iter)
-        self.cluster_size = cluster_size
-        self.population_size_in_cluster = population_size_in_cluster
-        self.alpha = alpha
-        self.beta = beta
+        self.cluster_size = kwargs['cluster_size']
+        self.population_size_in_cluster = kwargs['population_size_in_cluster']
+        self.alpha = kwargs['alpha']
+        self.beta = kwargs['beta']
 
         # Initializing the parameters of the algorithm
         self._H_j = self._l1 * np.random.rand(self.cluster_size)

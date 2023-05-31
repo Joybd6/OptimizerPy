@@ -3,15 +3,25 @@ import numpy as np
 
 
 class SineCos(Algorithms):
+    """
+    Sine Cosine Optimization Algorithm
+    """
+
     r1 = None
     r2 = None
     r3 = None
     r4 = None
     a = None
 
-    def __init__(self, dimension, max_iter, a=2):
+    def __init__(self, dimension, max_iter, **kwargs):
+        """
+
+        :param dimension:
+        :param max_iter:
+        :param kwargs:
+        """
         super().__init__(self.__class__.__name__, dimension, max_iter)
-        self.a = a
+        self.a = kwargs['a']
 
     def step(self, iteration):
         if self._current_agent is None or self._local_optimum_agent is None or self._global_optimum_agent is None:

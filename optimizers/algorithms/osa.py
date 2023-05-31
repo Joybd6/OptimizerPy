@@ -8,7 +8,7 @@ class OwlSearch(Algorithms):
     _normalized_fitness = None
     _EPSILON = 0.00000001
 
-    def __init__(self, dimension, max_iter):
+    def __init__(self, dimension, max_iter, **kwargs):
         super().__init__(self.__class__.__name__, dimension, max_iter)
 
     @property
