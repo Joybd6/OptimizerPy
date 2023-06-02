@@ -24,3 +24,4 @@ class History:
         if not isinstance(agent, (list, tuple)):
             raise TypeError("agent must be a list or tuple")
         self._best_agent = agent
+

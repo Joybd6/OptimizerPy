@@ -5,25 +5,25 @@ import numpy as np
 class Butterfly(Algorithms):
     """
     Butterfly Optimization Algorithm
-    :Constructor arguments:
-        :param dimension:
-        :param max_iter:
-        :param c:
-        :param p:
+    :param dimension: dimension of the population
+    :param max_iter: maximum number of iterations
+    :param c: c value for calculating fragrance
+    :param p: p value for calculating fragrance
     """
     _fragrance = None
     _random_agent_j = None
     _random_agent_k = None
 
-    def __init__(self, dimension, max_iter, c=0.05, p=0.8, **kwargs):
-        """
+    def __init__(self, dimension, **kwargs):
 
-        :param dimension:
-        :param max_iter:
-        :param c(kwargs):
-        :param p(kwargs):
         """
-        super().__init__(self.__class__.__name__, dimension, max_iter)
+        Butterfly Optimization Algorithm
+        :param dimension: dimension of the population
+        :param max_iter: maximum number of iterations
+        :param c: c value for calculating fragrance
+        :param p: p value for calculating fragrance
+        """
+        super().__init__(self.__class__.__name__, dimension)
         self.c = kwargs['c']
         self.p = kwargs['p']
         self.a = 0.01
@@ -68,7 +68,7 @@ class Butterfly(Algorithms):
 
         r = np.random.rand()
         if r < self.p:
-            updated_agent = self._current_agent + (np.sqaure(r) * self._local_optimum_agent - self._current_agent) * \
+            updated_agent = self._current_agent + (np.square(r) * self._local_optimum_agent - self._current_agent) * \
                             self.fragrance
         else:
             updated_agent = self._current_agent + (np.square(r) * self._random_agent_j - self._random_agent_k) * \
@@ -77,3 +77,12 @@ class Butterfly(Algorithms):
 
     def update_algorithm_state(self, iteration):
         pass
+
+
+def butterfly_callable(algorithm: Algorithms, population, current_id, iteration):
+    algorithm.fragrance = population.eval_value[current_id]
+    algorithm.random_agent_j = population.population[np.random.randint(0, population.population.shape[0])]
+    algorithm.random_agent_k = population.population[np.random.randint(0, population.population.shape[0])]
+    algorithm.current_agent = population.population[current_id]
+    algorithm.global_optimum_agent = population.global_optimum[0]
+    algorithm.local_optimum_agent = population.local_optimum[0]

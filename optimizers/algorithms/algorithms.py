@@ -6,11 +6,23 @@ class Algorithms(ABC):
     _local_worst_agent = None
     _global_optimum_agent = None
     _current_agent = None
+    _max_iter = 1
 
-    def __init__(self, name, dimension, max_iter):
+    def __init__(self, name, dimension):
         self._name = name
-        self.max_iter = max_iter
         self.dimension = dimension
+
+    @property
+    def max_iter(self):
+        return self._max_iter
+
+    @max_iter.setter
+    def max_iter(self, value):
+        if value < 0:
+            raise ValueError("max iteration must be positive")
+        if value is None:
+            raise TypeError("max iteration cannot be None")
+        self._max_iter = value
 
     @property
     def name(self):

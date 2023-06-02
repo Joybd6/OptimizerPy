@@ -17,17 +17,17 @@ class HGSO(Algorithms):
     _cluster_index = 0
     _agent_index = 0
 
-    def __init__(self, dimension, max_iter, **kwargs):
-        super().__init__(self.__class__.__name__, dimension, max_iter)
+    def __init__(self, dimension, **kwargs):
+        super().__init__(self.__class__.__name__, dimension)
+        self.n_cluster = kwargs['n_cluster']
         self.cluster_size = kwargs['cluster_size']
-        self.population_size_in_cluster = kwargs['population_size_in_cluster']
         self.alpha = kwargs['alpha']
         self.beta = kwargs['beta']
 
         # Initializing the parameters of the algorithm
-        self._H_j = self._l1 * np.random.rand(self.cluster_size)
-        self._C_j = self._l3 * np.random.rand(self.cluster_size)
-        self._P_ij = self._l2 * np.random.rand(self.population_size_in_cluster, self.cluster_size)
+        self._H_j = self._l1 * np.random.rand(self.n_cluster)
+        self._C_j = self._l3 * np.random.rand(self.n_cluster)
+        self._P_ij = self._l2 * np.random.rand(self.cluster_size, self.n_cluster)
         self._S_ij = self._update_solubility()
 
     # Updating the solubility of the Gas
@@ -127,3 +127,22 @@ class HGSO(Algorithms):
 
         self._H_j = self._H_j * np.exp(-self._C_j * ((1 / t) - (1 / self._t0)))
         self._S_ij = self._update_solubility()
+
+
+def hgso_callable(algorithm: HGSO, population, current_id, iteration):
+    # global_optimum and local_optimum contains two value, first one is the agent and second one is the fitness value
+    algorithm.current_agent = population.population[current_id]
+    algorithm.global_optimum_agent = population.global_optimum[0]
+    algorithm.local_optimum_agent = population.local_optimum[0]
+    algorithm.current_agent_fitness = population.eval_value[current_id]
+    algorithm.best_local_agent_fitness = population.local_optimum[1]
+
+    algorithm.cluster_index = int(current_id / algorithm.cluster_size)
+    algorithm.agent_index = int(current_id % algorithm.cluster_size)
+    ll = algorithm.cluster_index * algorithm.cluster_size
+    ul = ll + algorithm.cluster_size
+    #print("---------------------------------")
+    #print(f"current id: {current_id}")
+    #print(f"lower index: {ll}")
+    #print(f"upper index: {ul}")
+    algorithm.best_agent_in_cluster = population.population[ll + np.argmax(population.eval_value[ll:ul])]

@@ -2,6 +2,7 @@ from optimizers.population import Population
 from optimizers.algorithms import Algorithms
 from optimizers.utils import History
 from copy import deepcopy
+import numpy as np
 
 
 class Optimizer:
@@ -50,16 +51,23 @@ class Optimizer:
         self._algorithms_callback = algorithms_callback
         self.history = History()
 
+    @property
+    def population(self):
+        return self._population
+
     def run(self, max_iter):
         """
         This method runs the optimization process.
         :return:
         """
+        self._algorithms[0].max_iter = max_iter
         for iteration in range(max_iter):
             temp_pop = []
-            for agent in self._population.population:
-                self._algorithms_callback[0](self._algorithms[0], deepcopy(self._population))
+            self._population.update_global_optimum()
+            for agent_id, agent in enumerate(self._population.population):
+                self._algorithms_callback[0](self._algorithms[0], deepcopy(self._population), agent_id, iteration)
                 temp_pop.append(self._algorithms[0].step(iteration))
 
-            self._population.population = temp_pop
-            self._population.update_global_optimum()
+            self._population.population = np.array(temp_pop)
+            #self._population.update_global_optimum()
+            self._algorithms[0].update_algorithm_state(iteration)

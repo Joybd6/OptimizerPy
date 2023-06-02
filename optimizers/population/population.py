@@ -7,16 +7,25 @@ class Population:
     _local_optimum = None
     _global_optimum = None
     _callable_eval = None
+    _population = None
 
     def __init__(self, lower_bound, upper_bound, size=10, dimension=10, objective_function=None, optimization='min'):
         self.size = size
         self.lower_bound = lower_bound
         self.upper_bound = upper_bound
         self.dimension = dimension
-        self.population = None
+        #self.population = None
         print(objective_function)
         self._obj = objective_function
         self._optimization = optimization
+
+    @property
+    def local_optimum(self):
+        return self._local_optimum
+
+    @local_optimum.setter
+    def local_optimum(self, value):
+        raise ValueError("local optimum cannot be set through this method")
 
     @property
     def global_optimum(self):
@@ -106,21 +115,21 @@ class Population:
 
     @property
     def population(self):
-        print("getter of population is called")
+        # print("getter of population is called")
         return self._population
 
     @population.setter
-    def population(self, value):
+    def population(self, value: np.ndarray):
+        if value is None:
+            raise TypeError("population cannot be None")
+
         if value is not None and value.shape != (self.size, self.dimension):
             raise ValueError("population shape must be (size, dimension)")
 
-        self._population = value
-
-        if self._population is None:
-            self.eval_value = None
+        self._population = np.clip(value, self.lower_bound, self.upper_bound)
 
         if self._obj is not None and self._population is not None:
-            print("objective function is not None")
+            # print("objective function is not None")
             self.evaluate()
 
 

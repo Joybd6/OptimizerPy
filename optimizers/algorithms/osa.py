@@ -8,8 +8,8 @@ class OwlSearch(Algorithms):
     _normalized_fitness = None
     _EPSILON = 0.00000001
 
-    def __init__(self, dimension, max_iter, **kwargs):
-        super().__init__(self.__class__.__name__, dimension, max_iter)
+    def __init__(self, dimension, **kwargs):
+        super().__init__(self.__class__.__name__, dimension)
 
     @property
     def normalized_fitness(self):
@@ -50,3 +50,11 @@ class OwlSearch(Algorithms):
 
     def update_algorithm_state(self, iteration):
         pass
+
+
+def owl_search_callable(algorithm: Algorithms, population, current_id, iteration):
+    normalized_fitness = (population.eval_value - np.min(population.eval_value)) / (np.max(population.eval_value) -
+                                                                                    np.min(population.eval_value))
+    algorithm.normalized_fitness = normalized_fitness[current_id]
+    algorithm.current_agent = population.population[current_id]
+    algorithm.global_optimum_agent = population.global_optimum[0]
