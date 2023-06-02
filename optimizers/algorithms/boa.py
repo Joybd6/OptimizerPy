@@ -75,7 +75,7 @@ class Butterfly(Algorithms):
                             self.fragrance
         return updated_agent
 
-    def update_algorithm_state(self, iteration):
+    def update_algorithm_state(self, iteration, max_iter):
         pass
 
 

@@ -29,6 +29,10 @@ class HGSO(Algorithms):
         self._C_j = self._l3 * np.random.rand(self.n_cluster)
         self._P_ij = self._l2 * np.random.rand(self.cluster_size, self.n_cluster)
         self._S_ij = self._update_solubility()
+        self.update_algorithm_state(0, 1)
+
+    def update_worst_agent(self, population, iter, max_iter):
+        print("Hello World")
 
     # Updating the solubility of the Gas
     def _update_solubility(self):
@@ -122,8 +126,8 @@ class HGSO(Algorithms):
 
         return updated_current_agent
 
-    def update_algorithm_state(self, iteration):
-        t = - (iteration + 1) / self.max_iter
+    def update_algorithm_state(self, iteration, max_iter):
+        t = - (iteration + 1) / max_iter
 
         self._H_j = self._H_j * np.exp(-self._C_j * ((1 / t) - (1 / self._t0)))
         self._S_ij = self._update_solubility()
@@ -141,8 +145,8 @@ def hgso_callable(algorithm: HGSO, population, current_id, iteration):
     algorithm.agent_index = int(current_id % algorithm.cluster_size)
     ll = algorithm.cluster_index * algorithm.cluster_size
     ul = ll + algorithm.cluster_size
-    #print("---------------------------------")
-    #print(f"current id: {current_id}")
-    #print(f"lower index: {ll}")
-    #print(f"upper index: {ul}")
+    # print("---------------------------------")
+    # print(f"current id: {current_id}")
+    # print(f"lower index: {ll}")
+    # print(f"upper index: {ul}")
     algorithm.best_agent_in_cluster = population.population[ll + np.argmax(population.eval_value[ll:ul])]

@@ -103,11 +103,11 @@ class Population:
             if self._global_optimum is None or self._local_optimum[1] > self._global_optimum[1]:
                 self._global_optimum = self._local_optimum
 
-    def initialize(self, initializer="uniform"):
+    def initialize(self, initializer="uniform", lower_bound=0, upper_bound=1):
         if initializer == "uniform":
-            self.population = np.random.uniform(self.lower_bound, self.upper_bound, (self.size, self.dimension))
+            self.population = np.random.uniform(lower_bound, upper_bound, (self.size, self.dimension))
         elif initializer == "normal":
-            self.population = np.random.normal(self.lower_bound, self.upper_bound, (self.size, self.dimension))
+            self.population = np.random.normal(lower_bound, upper_bound, (self.size, self.dimension))
         else:
             raise ValueError("initializer must be either uniform or normal")
 

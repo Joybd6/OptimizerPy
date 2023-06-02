@@ -61,13 +61,18 @@ class Optimizer:
         :return:
         """
         self._algorithms[0].max_iter = max_iter
+        self.population.update_global_optimum()
+
         for iteration in range(max_iter):
             temp_pop = []
-            self._population.update_global_optimum()
             for agent_id, agent in enumerate(self._population.population):
                 self._algorithms_callback[0](self._algorithms[0], deepcopy(self._population), agent_id, iteration)
                 temp_pop.append(self._algorithms[0].step(iteration))
 
             self._population.population = np.array(temp_pop)
-            #self._population.update_global_optimum()
-            self._algorithms[0].update_algorithm_state(iteration)
+            self._population.update_global_optimum()
+
+            for call in self._algorithms[0].per_iter_callback:
+                call(self._population, iteration, max_iter)
+
+            self._algorithms[0].update_algorithm_state(iteration, max_iter)

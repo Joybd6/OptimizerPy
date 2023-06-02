@@ -7,10 +7,19 @@ class Algorithms(ABC):
     _global_optimum_agent = None
     _current_agent = None
     _max_iter = 1
+    _per_iter_callback = []
 
     def __init__(self, name, dimension):
         self._name = name
         self.dimension = dimension
+
+    @property
+    def per_iter_callback(self):
+        return self._per_iter_callback
+
+    @per_iter_callback.setter
+    def per_iter_callback(self, value):
+        raise Exception("per_iter_callback is read-only")
 
     @property
     def max_iter(self):
@@ -34,7 +43,7 @@ class Algorithms(ABC):
         pass
 
     @abstractmethod
-    def update_algorithm_state(self, iteration):
+    def update_algorithm_state(self, iteration, max_iter):
         """This method is called in each population step"""
 
     @property

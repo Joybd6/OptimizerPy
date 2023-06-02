@@ -24,19 +24,19 @@ if __name__ == "__main__":
 
     # Population initialization
     population = Population(lower_bound, upper_bound, size=pop_size, dimension=dimension, objective_function=sphere)
-    population.initialize(initializer="uniform")
+    population.initialize(initializer="uniform", lower_bound=0, upper_bound=1)
 
     # Optimizer initialization
     # Test Butterfly
     butterfly_params = {'c': 0.2, 'p': 0.8}
-    # algorithm = Butterfly(dimension=dimension, max_iter=100, **butterfly_params)
+    algorithm = Jaya(dimension=dimension, **{})
     sinecos_params = {'a': 1}
     #algorithm = OwlSearch(dimension=dimension)
     # Optimizer initialization
 
     # HGSO
     hgso_params = {'n_cluster': 5, "cluster_size": 20, "alpha": 0.8, "beta": 0.5}
-    algorithm = HGSO(dimension=dimension, **hgso_params)
-    opt = Optimizer(sphere, population, algorithm, hgso_callable)
-    opt.run(1000)
+    #algorithm = HGSO(dimension=dimension, **hgso_params)
+    opt = Optimizer(sphere, population, algorithm, jaya_callable)
+    opt.run(100)
     print(opt.population.global_optimum)

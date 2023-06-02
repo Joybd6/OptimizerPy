@@ -22,7 +22,7 @@ class SineCos(Algorithms):
         """
         super().__init__(self.__class__.__name__, dimension)
         self.a = kwargs['a']
-        self.update_algorithm_state(0)
+        self.update_algorithm_state(0,1)
 
     def step(self, iteration):
         if self._current_agent is None or self._local_optimum_agent is None or self._global_optimum_agent is None:
@@ -38,9 +38,9 @@ class SineCos(Algorithms):
                 - self._current_agent)
         return updated_agent
 
-    def update_algorithm_state(self, iteration):
+    def update_algorithm_state(self, iteration, max_iter):
         print(self.max_iter)
-        self.r1 = self.a - self.a * ((iteration+1) / self.max_iter)
+        self.r1 = self.a - self.a * ((iteration+1) / max_iter)
         self.r2 = 2 * np.pi * np.random.rand()
         self.r3 = np.random.rand()
         self.r4 = np.random.rand()

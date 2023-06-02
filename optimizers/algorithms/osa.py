@@ -48,7 +48,7 @@ class OwlSearch(Algorithms):
 
         return updated_agent
 
-    def update_algorithm_state(self, iteration):
+    def update_algorithm_state(self, iteration, max_iter):
         pass
 
 

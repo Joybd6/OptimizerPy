@@ -19,14 +19,14 @@ class Jaya(Algorithms):
                                      self._local_worst_agent - np.abs(self._current_agent))
         return updated_population
 
-    def update_algorithm_state(self, iteration):
+    def update_algorithm_state(self, iteration, max_iter):
         pass
 
 
 def jaya_callable(algorithm: Algorithms, population, current_id, iteration):
 
-    worst_agent = population.population[np.argmin(population.eval_value)] if population.optimization == 'max' \
-        else population.population[np.argmax(population.eval_value)]
+    worst_agent = population.population[np.argmax(population.eval_value)]
+
     algorithm.current_agent = population.population[current_id]
     algorithm.local_optimum_agent = population.local_optimum[0]
     algorithm.local_worst_agent = worst_agent
