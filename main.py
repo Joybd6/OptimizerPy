@@ -29,14 +29,14 @@ if __name__ == "__main__":
     # Optimizer initialization
     # Test Butterfly
     butterfly_params = {'c': 0.2, 'p': 0.8}
-    algorithm = Jaya(dimension=dimension, **{})
+    #algorithm = Jaya(dimension=dimension, **{})
     sinecos_params = {'a': 1}
     #algorithm = OwlSearch(dimension=dimension)
     # Optimizer initialization
 
     # HGSO
     hgso_params = {'n_cluster': 5, "cluster_size": 20, "alpha": 0.8, "beta": 0.5}
-    #algorithm = HGSO(dimension=dimension, **hgso_params)
-    opt = Optimizer(sphere, population, algorithm, jaya_callable)
-    opt.run(100)
+    algorithm = HGSO(dimension=dimension, **hgso_params)
+    opt = Optimizer(sphere, population, algorithm, hgso_callable)
+    opt.run(20)
     print(opt.population.global_optimum)

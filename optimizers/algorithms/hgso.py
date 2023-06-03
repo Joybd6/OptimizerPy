@@ -1,4 +1,5 @@
 from optimizers.algorithms import Algorithms
+from optimizers.population import Population
 import numpy as np
 
 
@@ -30,9 +31,26 @@ class HGSO(Algorithms):
         self._P_ij = self._l2 * np.random.rand(self.cluster_size, self.n_cluster)
         self._S_ij = self._update_solubility()
         self.update_algorithm_state(0, 1)
+        super()._per_iter_callback.append(self.update_worst_agent)
 
-    def update_worst_agent(self, population, iter, max_iter):
-        print("Hello World")
+    def update_worst_agent(self, population: Population, iteration: int, max_iter: int) -> None:
+        print("Updating worst agent")
+        # Getting the number of worst agents in the population
+        Nw = int(population.size * (np.random.uniform(0, self._c2 - self._c1) + self._c1))
+
+        # Getting the worst agents index in the population
+        worst_agents_index = None
+        if population.optimization == 'min':
+            worst_agents_index = np.argsort(population.eval_value)[-Nw:]
+        elif population.optimization == 'max':
+            worst_agents_index = np.argsort(population.eval_value)[:Nw]
+
+        # updating the worst agents
+        for i in worst_agents_index:
+            population.population[i] = np.random.uniform(population.lower_bound, population.upper_bound,
+                                                         size=population.dimension)
+        population.evaluate()
+
 
     # Updating the solubility of the Gas
     def _update_solubility(self):
@@ -149,4 +167,7 @@ def hgso_callable(algorithm: HGSO, population, current_id, iteration):
     # print(f"current id: {current_id}")
     # print(f"lower index: {ll}")
     # print(f"upper index: {ul}")
-    algorithm.best_agent_in_cluster = population.population[ll + np.argmax(population.eval_value[ll:ul])]
+    if population.optimization == 'max':
+        algorithm.best_agent_in_cluster = population.population[ll + np.argmax(population.eval_value[ll:ul])]
+    elif population.optimization == 'min':
+        algorithm.best_agent_in_cluster = population.population[ll + np.argmin(population.eval_value[ll:ul])]

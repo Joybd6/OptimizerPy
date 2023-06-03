@@ -25,7 +25,8 @@ class Jaya(Algorithms):
 
 def jaya_callable(algorithm: Algorithms, population, current_id, iteration):
 
-    worst_agent = population.population[np.argmax(population.eval_value)]
+    worst_agent = population.population[np.argmax(population.eval_value)] if population.optimization == 'min' else \
+        population.population[np.argmin(population.eval_value)]
 
     algorithm.current_agent = population.population[current_id]
     algorithm.local_optimum_agent = population.local_optimum[0]
