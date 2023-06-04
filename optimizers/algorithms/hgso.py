@@ -34,7 +34,7 @@ class HGSO(Algorithms):
         super()._per_iter_callback.append(self.update_worst_agent)
 
     def update_worst_agent(self, population: Population, iteration: int, max_iter: int) -> None:
-        print("Updating worst agent")
+        #print("Updating worst agent")
         # Getting the number of worst agents in the population
         Nw = int(population.size * (np.random.uniform(0, self._c2 - self._c1) + self._c1))
 

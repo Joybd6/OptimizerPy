@@ -3,7 +3,7 @@ from optimizers.algorithms import Algorithms
 from optimizers.utils import History
 from copy import deepcopy
 import numpy as np
-
+import tqdm
 
 class Optimizer:
     """
@@ -63,7 +63,9 @@ class Optimizer:
         self._algorithms[0].max_iter = max_iter
         self.population.update_global_optimum()
 
-        for iteration in range(max_iter):
+        tq = tqdm.tqdm(range(max_iter), desc="Optimizing", unit="iter", ncols=100, ascii=" #",
+                       postfix={"fitness": self.population.global_optimum[1]})
+        for iteration in tq:
             temp_pop = []
             for agent_id, agent in enumerate(self._population.population):
                 self._algorithms_callback[0](self._algorithms[0], deepcopy(self._population), agent_id, iteration)
@@ -76,3 +78,4 @@ class Optimizer:
                 call(self._population, iteration, max_iter)
 
             self._algorithms[0].update_algorithm_state(iteration, max_iter)
+            tq.set_postfix({"fitness": self.population.global_optimum[1]})

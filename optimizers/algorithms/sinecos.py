@@ -22,7 +22,7 @@ class SineCos(Algorithms):
         """
         super().__init__(self.__class__.__name__, dimension)
         self.a = kwargs['a']
-        self.update_algorithm_state(0,1)
+        self.update_algorithm_state(0, 1)
 
     def step(self, iteration):
         if self._current_agent is None or self._local_optimum_agent is None or self._global_optimum_agent is None:
