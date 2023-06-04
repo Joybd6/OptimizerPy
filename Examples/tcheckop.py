@@ -75,7 +75,7 @@ algorithms.append(owl_search)
 calls.append(owl_search_callable)
 
 # HOptimizer
-hoptimizer = TOptimizer(sphere, population, algorithms, calls, tp_threshold=0.5)
+hoptimizer = TOptimizer(sphere, population, algorithms, calls, tp_threshold=0.7)
 hoptimizer.run(100)
 print(hoptimizer.population.global_optimum)
 print("-----------------------------------")

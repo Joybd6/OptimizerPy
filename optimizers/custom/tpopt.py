@@ -33,8 +33,8 @@ class TOptimizer(Optimizer):
         if len(self._window) < self._window_size:
             return self.population
 
-        if len(self._window) == self._window_size:
-            self._window.pop(0)
+        #if len(self._window) == self._window_size:
+            #self._window.pop(0)
 
         # Appending the current population to the window
         self._window.append(deepcopy(self.population))

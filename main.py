@@ -39,5 +39,5 @@ if __name__ == "__main__":
     hgso_params = {'n_cluster': 5, "cluster_size": 20, "alpha": 1.0, "beta": 1.0}
     algorithm = HGSO(dimension=dimension, **hgso_params)
     opt = Optimizer(sphere, population, algorithm, hgso_callable)
-    opt.run(30)
+    opt.run(100)
     #print(opt.population.global_optimum)
