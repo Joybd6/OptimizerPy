@@ -75,8 +75,6 @@ calls.append(owl_search_callable)
 
 # HOptimizer
 hoptimizer = HOptimizer(sphere, population, algorithms, calls)
-hoptimizer.run(3000)
+hoptimizer.run(100)
 print(hoptimizer.population.global_optimum)
 print("-----------------------------------")
-
-print(population.global_optimum)

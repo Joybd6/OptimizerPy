@@ -39,7 +39,7 @@ class SineCos(Algorithms):
         return updated_agent
 
     def update_algorithm_state(self, iteration, max_iter):
-        print(self.max_iter)
+        #print(self.max_iter)
         self.r1 = self.a - self.a * ((iteration+1) / max_iter)
         self.r2 = 2 * np.pi * np.random.rand()
         self.r3 = np.random.rand()

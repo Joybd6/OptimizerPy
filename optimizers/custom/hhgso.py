@@ -74,10 +74,14 @@ class HOptimizer(Optimizer):
                 temp_pop.append(updated_agent)
 
             self.population.population = np.array(temp_pop)
+
             self.population.update_global_optimum()
 
             for call in self._algorithms[0].per_iter_callback:
                 call(deepcopy(self._population), i, max_iter)
+
+            for algorithm in self._algorithms:
+                algorithm.update_algorithm_state(i, max_iter)
 
             if self._check_updates() == 0:
                 algorithm_indexes = self._shuffle_algorithm(algorithm_indexes, i, max_iter)

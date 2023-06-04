@@ -16,98 +16,66 @@ from optimizers.algorithms import butterfly_callable
 # Import OwlSearch
 from optimizers.algorithms import OwlSearch
 from optimizers.algorithms import owl_search_callable
-import tqdm
 
 # Import Optimizers
 from optimizers import Optimizer
 
+# Import Custom Optimizer
+from optimizers.custom import HOptimizer
+from optimizers.custom import TOptimizer
 
-class HOptimizer(Optimizer):
-    _pmin = 0.2
-    _pmax = 0.8
-    _window = []
-    _window_size = 0
 
-    def __init__(self, objective_function, population, algorithm, callable_function, window_size=3):
-        """
+#### Checking the algorithms
+dimension = 30
+pop_size = 100
+upper_bound = np.array([100]).repeat(dimension)
+lower_bound = np.array([-100]).repeat(dimension)
+algorithms = []
+calls = []
 
-        :param objective_function: Python callable function
-        :param population: Population object
-        :param algorithm: HGSO algorithm should be in the first position
-        :param callable_function: Algorithms callable function should in order with algorithms
-        """
-        super().__init__(objective_function, population, algorithm, callable_function)
-        if not isinstance(algorithm[0], HGSO):
-            raise TypeError("First algorithm must be a HGSO object")
-        self._window_size = window_size
+# Sphere function
+def sphere(x):
+    return np.sum(np.power(x, 2))
 
-    def _check_updates(self):
-        if self.population.optimization == 'min':
-            if self.population.global_optimum[1] < self.population.local_optimum[1]:
-                return 1
-            else:
-                return 0
-        elif self.population.optimization == 'max':
-            if self.population.global_optimum[1] > self.population.local_optimum[1]:
-                return 1
-            else:
-                return 0
 
-    def _shuffle_algorithm(self, algorithm_indexes, iteration, max_iter):
-        p = self._pmax + (iteration / max_iter) * (self._pmin - self._pmax)
+# Population initialization
+population = Population(lower_bound, upper_bound, size=pop_size, dimension=dimension, objective_function=sphere,
+                        optimization="min")
+population.initialize(initializer="uniform", lower_bound=lower_bound, upper_bound=upper_bound)
 
-        if np.random.uniform(0, 1) < p:
-            #print("Shuffling algorithms")
-            np.random.shuffle(algorithm_indexes)
-        return algorithm_indexes
+# Algorithms initialization
+# HGSO
+hgso_params = {'n_cluster': 5, "cluster_size": 20, "alpha": 1.0, "beta": 1.0}
+hgso = HGSO(dimension=dimension, **hgso_params)
+algorithms.append(hgso)
+calls.append(hgso_callable)
 
-    def run(self, max_iter):
+# SineCos
+sinecos_params = {'a': 0.8}
+sinecos = SineCos(dimension=dimension, **sinecos_params)
+algorithms.append(sinecos)
+calls.append(sinecos_callable)
 
-        # Set the max iteration value for all algorithms
-        for algorithm in self._algorithms:
-            algorithm.max_iter = max_iter
+# Jaya
+jaya_params = {}
+jaya = Jaya(dimension=dimension, **jaya_params)
+algorithms.append(jaya)
+calls.append(jaya_callable)
 
-        # Update the population
-        self.population.update_global_optimum()
+# Butterfly
+butterfly_params = {'c': 0.2, 'p': 0.8}
+butterfly = Butterfly(dimension=dimension, **butterfly_params)
+algorithms.append(butterfly)
+calls.append(butterfly_callable)
 
-        idx = None  # Index of the algorithm
+# Owl Search
+owl_search_params = {}
+owl_search = OwlSearch(dimension=dimension, **owl_search_params)
+algorithms.append(owl_search)
+calls.append(owl_search_callable)
 
-        # set the algorithm indexes for dynamically mapping to the cluster
-        algorithm_indexes = np.arange(len(self._algorithms))
-
-        # Set the current algorithm and callable function
-        current_algorithm = None
-        current_callable = None
-
-        # Set the cluster number and cluster size
-        n_cluster = self._algorithms[0].n_cluster
-        cluster_size = self._algorithms[0].cluster_size
-
-        # Initialize the iteration
-        for i in range(max_iter):
-            idx = -1
-            temp_pop = []  # Temporary updated population
-
-            # Iterate over the population
-            for agent_id, agent in tqdm(enumerate(self._population.population)):
-
-                # Update the current algorithm
-                if int(agent_id % cluster_size) == 0:
-                    idx = int((idx + 1) % len(self._algorithms))
-                    current_algorithm = self._algorithms[algorithm_indexes[idx]]
-                    current_callable = self._algorithms_callback[algorithm_indexes[idx]]
-
-                # Update the agent
-                current_callable(current_algorithm, self._population, agent_id, i)
-                updated_agent = current_algorithm.step(i)
-                temp_pop.append(updated_agent)
-
-            # Update the population and global optimum
-            self.population.population = np.array(temp_pop)
-            self.population.update_global_optimum()
-
-            for call in self._algorithms[0].per_iter_callback:
-                call(deepcopy(self._population), i, max_iter)
-
-            if self._check_updates() == 0:
-                algorithm_indexes = self._shuffle_algorithm(algorithm_indexes, i, max_iter)
+# HOptimizer
+hoptimizer = TOptimizer(sphere, population, algorithms, calls, tp_threshold=0.5)
+hoptimizer.run(100)
+print(hoptimizer.population.global_optimum)
+print("-----------------------------------")
