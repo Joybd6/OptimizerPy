@@ -16,7 +16,7 @@ from optimizers.algorithms import butterfly_callable
 # Import OwlSearch
 from optimizers.algorithms import OwlSearch
 from optimizers.algorithms import owl_search_callable
-
+from benchmarking.benchmark import *
 # Import Optimizers
 from optimizers import Optimizer
 
@@ -26,20 +26,22 @@ import matplotlib.pyplot as plt
 
 
 #### Checking the algorithms
+
+obj = Rastrigin()
+
 dimension = 30
 pop_size = 100
-upper_bound = np.array([100]).repeat(dimension)
-lower_bound = np.array([-100]).repeat(dimension)
+upper_bound = np.array([obj.range[1]]).repeat(dimension)
+lower_bound = np.array([obj.range[0]]).repeat(dimension)
 algorithms = []
 calls = []
 
 # Sphere function
-def sphere(x):
-    return np.sum(np.power(x, 2))
+
 
 
 # Population initialization
-population = Population(lower_bound, upper_bound, size=pop_size, dimension=dimension, objective_function=sphere,
+population = Population(lower_bound, upper_bound, size=pop_size, dimension=dimension, objective_function=obj.get_algorithm(),
                         optimization="min")
 population.initialize(initializer="uniform", lower_bound=lower_bound, upper_bound=upper_bound)
 
@@ -75,8 +77,9 @@ algorithms.append(owl_search)
 calls.append(owl_search_callable)
 
 # HOptimizer
-hoptimizer = HOptimizer(sphere, population, algorithms, calls)
+hoptimizer = HOptimizer(obj.get_algorithm(), population, algorithms, calls)
 hoptimizer.run(100)
+hoptimizer.history.name = f"Hybrid Henry Gas Solubility Optimization ({obj.name})"
 hoptimizer.history.plot()
 plt.show()
 #print(hoptimizer.population.global_optimum)

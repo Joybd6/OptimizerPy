@@ -24,26 +24,28 @@ from optimizers import Optimizer
 from optimizers.custom import HOptimizer
 from optimizers.custom import TOptimizer
 import matplotlib.pyplot as plt
+from benchmarking.benchmark import *
 
 
 #### Checking the algorithms
+
+obj = Rastrigin()
+
 dimension = 30
 pop_size = 100
-upper_bound = np.array([100]).repeat(dimension)
-lower_bound = np.array([-100]).repeat(dimension)
+upper_bound = np.array([obj.range[1]]).repeat(dimension)
+lower_bound = np.array([obj.range[0]]).repeat(dimension)
 algorithms = []
 calls = []
 
 # Sphere function
-def sphere(x):
-    return np.sum(np.power(x, 2))
+
 
 
 # Population initialization
-population = Population(lower_bound, upper_bound, size=pop_size, dimension=dimension, objective_function=sphere,
+population = Population(lower_bound, upper_bound, size=pop_size, dimension=dimension, objective_function=obj.get_algorithm(),
                         optimization="min")
 population.initialize(initializer="uniform", lower_bound=lower_bound, upper_bound=upper_bound)
-
 # Algorithms initialization
 # HGSO
 hgso_params = {'n_cluster': 5, "cluster_size": 20, "alpha": 1.0, "beta": 1.0}
@@ -76,8 +78,10 @@ algorithms.append(owl_search)
 calls.append(owl_search_callable)
 
 # HOptimizer
-hoptimizer = TOptimizer(sphere, population, algorithms, calls, tp_threshold=0.2)
+hoptimizer = TOptimizer(obj.get_algorithm(), population, algorithms, calls, tp_threshold=0.2)
 hoptimizer.run(100)
+hoptimizer.history.name = f"Triple Check Exploration Optimization({obj.name})"
 hoptimizer.history.plot()
 plt.show()
 print("-----------------------------------")
+#print(population.population[0])

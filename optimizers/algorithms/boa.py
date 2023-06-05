@@ -54,6 +54,7 @@ class Butterfly(Algorithms):
 
     @fragrance.setter
     def fragrance(self, value):
+        #print("Fragrance: ", value)
         self._fragrance = self.c * np.power(value, self.a)
 
     def step(self, iteration):
