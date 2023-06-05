@@ -11,6 +11,7 @@ from optimizers.algorithms import owl_search_callable
 import numpy as np
 from optimizers.algorithms import HGSO
 from optimizers.algorithms import hgso_callable
+import matplotlib.pyplot as plt
 
 
 if __name__ == "__main__":
@@ -41,3 +42,6 @@ if __name__ == "__main__":
     opt = Optimizer(sphere, population, algorithm, hgso_callable)
     opt.run(100)
     #print(opt.population.global_optimum)
+    opt.history.plot()
+    plt.show()
+

@@ -87,3 +87,4 @@ class HOptimizer(Optimizer):
                 algorithm_indexes = self._shuffle_algorithm(algorithm_indexes, i, max_iter)
             #print(f"algorithm_indexes: {algorithm_indexes}")
             tq.set_postfix({"fitness": self.population.global_optimum[1]})
+            self.history.add_agent(self.population.global_optimum)

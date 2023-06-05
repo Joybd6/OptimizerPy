@@ -37,7 +37,7 @@ class TOptimizer(Optimizer):
             #self._window.pop(0)
 
         # Appending the current population to the window
-        self._window.append(deepcopy(self.population))
+        #self._window.append(deepcopy(self.population))
 
         # Check if the global optimum difference between two epochs
         # is greater than the threshold, if yes, it won't perform updates otherwise
@@ -135,10 +135,10 @@ class TOptimizer(Optimizer):
         n_cluster = self._algorithms[0].n_cluster
         cluster_size = self._algorithms[0].cluster_size
 
-        #tq = tqdm.tqdm(range(max_iter), desc="Optimizing", unit="iter", ncols=100, ascii=" #",
-                       #postfix={"fitness": self.population.global_optimum[1]})
+        tq = tqdm.tqdm(range(max_iter), desc="Optimizing", unit="iter", ncols=100, ascii=" #",
+                       postfix={"fitness": self.population.global_optimum[1]})
         # Initialize the iteration
-        for i in range(max_iter):
+        for i in tq:
             idx = -1
             temp_pop = []  # Temporary updated population
 
@@ -177,5 +177,6 @@ class TOptimizer(Optimizer):
             self._window.pop(-1)
             self._window.append(deepcopy(self._population))
 
-            #tq.set_postfix({"fitness": self.population.global_optimum[1]})
-            print("Iteration: ", i, "Fitness: ", self.population.global_optimum[1])
+            tq.set_postfix({"fitness": self.population.global_optimum[1]})
+            #print("Iteration: ", i, "Fitness: ", self.population.global_optimum[1])
+            self.history.add_agent(self.population.global_optimum)

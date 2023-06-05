@@ -79,3 +79,4 @@ class Optimizer:
 
             self._algorithms[0].update_algorithm_state(iteration, max_iter)
             tq.set_postfix({"fitness": self.population.global_optimum[1]})
+            self.history.add_agent(self.population.global_optimum)

@@ -22,6 +22,7 @@ from optimizers import Optimizer
 
 # Import Custom Optimizer
 from optimizers.custom import HOptimizer
+import matplotlib.pyplot as plt
 
 
 #### Checking the algorithms
@@ -76,5 +77,7 @@ calls.append(owl_search_callable)
 # HOptimizer
 hoptimizer = HOptimizer(sphere, population, algorithms, calls)
 hoptimizer.run(100)
+hoptimizer.history.plot()
+plt.show()
 #print(hoptimizer.population.global_optimum)
 #print("-----------------------------------")
