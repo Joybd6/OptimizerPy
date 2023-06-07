@@ -27,7 +27,7 @@ import matplotlib.pyplot as plt
 
 #### Checking the algorithms
 
-obj = Rastrigin()
+obj = Schwefel_1_2()
 
 dimension = 30
 pop_size = 100
