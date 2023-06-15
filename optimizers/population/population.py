@@ -15,7 +15,7 @@ class Population:
         self.upper_bound = upper_bound
         self.dimension = dimension
         #self.population = None
-        print(objective_function)
+        #print(objective_function)
         self._obj = objective_function
         self._optimization = optimization
 

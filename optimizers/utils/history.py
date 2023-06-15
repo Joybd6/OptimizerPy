@@ -3,11 +3,12 @@ import matplotlib.pyplot as plt
 
 class History:
     name = None
-    _agents = []
+    _agents = None
     _best_agent = None
-    _fitness = []
+    _fitness = None
     def __init__(self):
-        ...
+        self._agents = []
+        self._fitness = []
 
     def add_agent(self, agent):
         if not isinstance(agent, (list, tuple)):
@@ -31,9 +32,9 @@ class History:
         self._best_agent = agent
 
     def plot(self):
-        if self.name is not None:
-            plt.title(self.name)
-        plt.plot(self._fitness)
-        plt.xlabel("Iteration")
-        plt.ylabel("Optimal Value")
+        #if self.name is not None:
+            #plt.label(self.name)
+        plt.plot(self._fitness, label=self.name)
+        #plt.xlabel("Iteration")
+        #plt.ylabel("Optimal Value")
 

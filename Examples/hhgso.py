@@ -29,58 +29,62 @@ import matplotlib.pyplot as plt
 
 obj = Schwefel_1_2()
 
-dimension = 30
-pop_size = 100
-upper_bound = np.array([obj.range[1]]).repeat(dimension)
-lower_bound = np.array([obj.range[0]]).repeat(dimension)
-algorithms = []
-calls = []
 
-# Sphere function
+def load_HOP(obj):
+    dimension = 30
+    pop_size = 100
+    upper_bound = np.array([obj.range[1]]).repeat(dimension)
+    lower_bound = np.array([obj.range[0]]).repeat(dimension)
+    algorithms = []
+    calls = []
+
+    # Sphere function
 
 
 
-# Population initialization
-population = Population(lower_bound, upper_bound, size=pop_size, dimension=dimension, objective_function=obj.get_algorithm(),
-                        optimization="min")
-population.initialize(initializer="uniform", lower_bound=lower_bound, upper_bound=upper_bound)
+    # Population initialization
+    population = Population(lower_bound, upper_bound, size=pop_size, dimension=dimension, objective_function=obj.get_algorithm(),
+                            optimization="min")
+    population.initialize(initializer="uniform", lower_bound=lower_bound, upper_bound=upper_bound)
 
-# Algorithms initialization
-# HGSO
-hgso_params = {'n_cluster': 5, "cluster_size": 20, "alpha": 1.0, "beta": 1.0}
-hgso = HGSO(dimension=dimension, **hgso_params)
-algorithms.append(hgso)
-calls.append(hgso_callable)
+    # Algorithms initialization
+    # HGSO
+    hgso_params = {'n_cluster': 5, "cluster_size": 20, "alpha": 1.0, "beta": 1.0}
+    hgso = HGSO(dimension=dimension, **hgso_params)
+    algorithms.append(hgso)
+    calls.append(hgso_callable)
 
-# SineCos
-sinecos_params = {'a': 0.8}
-sinecos = SineCos(dimension=dimension, **sinecos_params)
-algorithms.append(sinecos)
-calls.append(sinecos_callable)
+    # SineCos
+    sinecos_params = {'a': 0.8}
+    sinecos = SineCos(dimension=dimension, **sinecos_params)
+    algorithms.append(sinecos)
+    calls.append(sinecos_callable)
 
-# Jaya
-jaya_params = {}
-jaya = Jaya(dimension=dimension, **jaya_params)
-algorithms.append(jaya)
-calls.append(jaya_callable)
+    # Jaya
+    jaya_params = {}
+    jaya = Jaya(dimension=dimension, **jaya_params)
+    algorithms.append(jaya)
+    calls.append(jaya_callable)
 
-# Butterfly
-butterfly_params = {'c': 0.2, 'p': 0.8}
-butterfly = Butterfly(dimension=dimension, **butterfly_params)
-algorithms.append(butterfly)
-calls.append(butterfly_callable)
+    # Butterfly
+    butterfly_params = {'c': 0.2, 'p': 0.8}
+    butterfly = Butterfly(dimension=dimension, **butterfly_params)
+    algorithms.append(butterfly)
+    calls.append(butterfly_callable)
 
-# Owl Search
-owl_search_params = {}
-owl_search = OwlSearch(dimension=dimension, **owl_search_params)
-algorithms.append(owl_search)
-calls.append(owl_search_callable)
+    # Owl Search
+    owl_search_params = {}
+    owl_search = OwlSearch(dimension=dimension, **owl_search_params)
+    algorithms.append(owl_search)
+    calls.append(owl_search_callable)
 
-# HOptimizer
-hoptimizer = HOptimizer(obj.get_algorithm(), population, algorithms, calls)
-hoptimizer.run(100)
-hoptimizer.history.name = f"Hybrid Henry Gas Solubility Optimization ({obj.name})"
-hoptimizer.history.plot()
-plt.show()
+    # HOptimizer
+    hoptimizer = HOptimizer(obj.get_algorithm(), population, algorithms, calls)
+
+    return hoptimizer
+    #hoptimizer.run(100)
+    #hoptimizer.history.name = f"Hybrid Henry Gas Solubility Optimization ({obj.name})"
+    #hoptimizer.history.plot()
+    #plt.show()
 #print(hoptimizer.population.global_optimum)
 #print("-----------------------------------")

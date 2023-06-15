@@ -17,7 +17,7 @@ class HOptimizer(Optimizer):
         :param algorithm: HGSO algorithm should be in the first position
         :param callable_function: Algorithms callable function should in order with algorithms
         """
-        super().__init__(objective_function, population, algorithm, callable_function)
+        super(HOptimizer, self).__init__(objective_function, population, algorithm, callable_function)
         if not isinstance(algorithm[0], HGSO):
             raise TypeError("First algorithm must be a HGSO object")
 
@@ -55,7 +55,7 @@ class HOptimizer(Optimizer):
         n_cluster = self._algorithms[0].n_cluster
         cluster_size = self._algorithms[0].cluster_size
 
-        tq = tqdm.tqdm(range(max_iter),desc="Optimizing", unit="iter", ncols=100, ascii=" #",
+        tq = tqdm.tqdm(range(max_iter),desc="Optimizing HHGSO", unit="iter", ncols=100, ascii=" #",
                            postfix={"fitness": self.population.global_optimum[1]})
 
         for i in tq:

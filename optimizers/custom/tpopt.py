@@ -21,7 +21,7 @@ class TOptimizer(Optimizer):
         :param algorithm: HGSO algorithm should be in the first position
         :param callable_function: Algorithms callable function should in order with algorithms
         """
-        super().__init__(objective_function, population, algorithm, callable_function)
+        super(TOptimizer, self).__init__(objective_function, population, algorithm, callable_function)
         if not isinstance(algorithm[0], HGSO):
             raise TypeError("First algorithm must be a HGSO object")
         self._window_size = window_size
@@ -135,7 +135,7 @@ class TOptimizer(Optimizer):
         n_cluster = self._algorithms[0].n_cluster
         cluster_size = self._algorithms[0].cluster_size
 
-        tq = tqdm.tqdm(range(max_iter), desc="Optimizing", unit="iter", ncols=100, ascii=" #",
+        tq = tqdm.tqdm(range(max_iter), desc="Optimizing EHGO", unit="iter", ncols=100, ascii=" #",
                        postfix={"fitness": self.population.global_optimum[1]})
         # Initialize the iteration
         for i in tq:

@@ -12,7 +12,7 @@ class Optimizer:
 
     _global_best_agent = None
     _local_optimum_agent = None
-
+    history = None
     def __init__(self, objective_function: callable, population: Population, algorithms, algorithms_callback):
         """
         :param objective_function:
