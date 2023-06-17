@@ -13,10 +13,10 @@ from optimizers.algorithms import HGSO
 from optimizers.algorithms import hgso_callable
 import matplotlib.pyplot as plt
 from benchmarking.benchmark import Rastrigin
-from benchmarking.benchmark import Ackley
+from benchmarking.benchmark import Ackley, Quartic_with_noise
 if __name__ == "__main__":
 
-    obj = Ackley()
+    obj = Quartic_with_noise()
 
 
     dimension = 30

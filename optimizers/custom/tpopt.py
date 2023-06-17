@@ -69,14 +69,14 @@ class TOptimizer(Optimizer):
                         updated_pop = temp_pop
                 elif self.population.optimization == 'max':
                     if temp_pop.global_optimum[1] > updated_pop.global_optimum[1]:
-                        updated_pop_algorithm = temp_pop
+                        updated_pop = temp_pop
 
-            if self.population.optimization == 'min':
-                if updated_pop_algorithm.global_optimum[1] < updated_pop.global_optimum[1]:
-                    updated_pop = updated_pop_algorithm
-            elif self.population.optimization == 'max':
-                if updated_pop_algorithm.global_optimum[1] > updated_pop.global_optimum[1]:
-                    updated_pop = updated_pop_algorithm
+            #if self.population.optimization == 'min':
+             #   if updated_pop_algorithm.global_optimum[1] < updated_pop.global_optimum[1]:
+              #      updated_pop = updated_pop_algorithm
+            #elif self.population.optimization == 'max':
+             #   if updated_pop_algorithm.global_optimum[1] > updated_pop.global_optimum[1]:
+              #      updated_pop = updated_pop_algorithm
 
         return updated_pop
 
@@ -174,7 +174,7 @@ class TOptimizer(Optimizer):
             self._window.append(deepcopy(self.population))
 
             self._population = self.__triple_check(i, max_iter)
-            self._window.pop(-1)
+            #self._window.pop(-1)
             self._window.append(deepcopy(self._population))
 
             tq.set_postfix({"fitness": self.population.global_optimum[1]})

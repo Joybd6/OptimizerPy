@@ -80,7 +80,7 @@ def load_TET(obj):
     calls.append(owl_search_callable)
 
     # HOptimizer
-    toptimizer = TOptimizer(obj.get_algorithm(), population, algorithms, calls, tp_threshold=0.5)
+    toptimizer = TOptimizer(obj.get_algorithm(), population, algorithms, calls, tp_threshold=0.00002)
     #hoptimizer.run(100)
     #hoptimizer.history.name = "EHGO"
     #hoptimizer.history.plot()
