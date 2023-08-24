@@ -5,17 +5,26 @@ import matplotlib.pyplot as plt
 import os
 import pandas as pd
 
-ackley = Rastrigin()
+ackley = Step()
+
+#--------------Triplecheck-----------------
+#Rastringin - ok
+#Sphere - ok
+#Quartic_with_noise - ok
+#Rosenbrock - ok
+#Schwefel_1_2 - ok
+#Step - ok
+#Ackley - ok
 
 #plt.title(f"Benchmark ({ackley.name}\)")
-eop = load_TET(ackley)
-eop.run(100)
+eop = load_HOP(ackley)
+eop.run(10)
 #eop.history.get("fitness")
 
 #print(os.getcwd())
 
 df = pd.DataFrame(eop.history.get("fitness"),columns=["fitness"])
-df.to_csv(f"results/{ackley.name}_Triplecheck.csv", index=False)
+df.to_csv(f"results/{ackley.name}_hhgso.csv", index=False)
 
 
 #hop = load_HOP(ackley)
